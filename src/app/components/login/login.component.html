@@ -1,0 +1,122 @@
+<div class="container" style="padding: 30px">
+  <div class="form" >
+    <br>
+    <!-- <form [formGroup]="loginForm" (ngSumbit)="sumbitLogin()"> -->
+    <form #form="ngForm" (ngSubmit)="onSumbit()">
+      <h1 class="h3 mb-3 fw-normal form-name">Напишите нам</h1>
+
+      <div class="pole">
+        <div class="pole-text"> Ваше имя:</div>
+        <input class="pole-input icon-user" type="text" name="name"  [(ngModel)]="fname" required="">
+      </div>
+
+      <div class="pole">
+        <div class="pole-text"> Ваш Email:</div>
+        <input class="pole-input icon-email" type="email" name="email" [(ngModel)]="femail" required  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" >
+      </div>
+
+      <div class="pole">
+        <div class="pole-text"> Ваш телефон:</div>
+        <input class="pole-input icon-phone phone" type="tel" name="phone" [textMask]="{mask: phoneMask}" [(ngModel)]="fphone" required pattern="\+?[0-9\s\-\(\)]+">
+      </div>
+
+      <div class="pole">
+        <div class="pole-text"> Тема:</div>
+        <select name="user_profile_color_1" class="pole-input" [(ngModel)]="newMessage.theme" required>
+          
+          <option *ngFor="let theme of themes" value="{{theme.id}}" >
+            {{ theme.theme }}
+          </option>
+        </select>
+      </div>
+
+      <div class="pole">
+        <div class="pole-text"> Ваше сообщение:</div>
+        <textarea class="pole-input" type="text" name="message" [(ngModel)]="newMessage.message" required></textarea>
+      </div>
+
+      <br>
+      <br>
+      <div [hidden]="captcha" >
+        <re-captcha  style="text-align:center" (resolved)="resolved($event)" siteKey="6LdXIYkfAAAAALb7WG_S0DdDYxj6eXx8xan872AN" ></re-captcha>
+        <div class="my-button">
+          <button disabled > Отправить письмо!</button>
+        </div>
+      </div>
+
+      <div [hidden]="!captcha">
+        <div class="my-button">
+          <button type="submit" name="button" style="text-align:center" [disabled]="form.invalid"> Отправить письмо!</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="">
+    <div class="row">
+      <div style="width: 20%">
+        <div>
+          <h5>Имя</h5>
+        </div>
+      </div>
+      <div style="width: 20%">
+        <div>
+          <h5>Почта</h5>
+        </div>
+      </div>
+      <div  style="width: 20%">
+        <div>
+          <h5>Телефон</h5>
+        </div>
+      </div>
+      <div style="width: 20%">
+        <div>
+          <h5>Тема</h5>
+        </div>
+      </div>
+      <div style="width: 20%">
+        <div>
+          <h5>Сообщение</h5>
+        </div>
+      </div>
+    </div> 
+
+    <div *ngFor="let mess of messages">
+      <div class="row">
+        <div style="width: 20%">
+          <div *ngFor="let user of users">
+            <div *ngIf="user.id == mess.idUser"> {{user.name}}</div>
+          </div>
+        </div>
+        <div style="width: 20%">
+          <div *ngFor="let user of users">
+            <div *ngIf="user.id == mess.idUser"> {{user.email}}</div>
+          </div>
+        </div>
+        <div  style="width: 20%">
+          <div>
+            <div *ngFor="let user of users">
+              <div *ngIf="user.id == mess.idUser"> {{user.phone}}</div>
+            </div>
+          </div>
+        </div>
+        <div style="width: 20%">
+          <div *ngFor="let theme of themes">
+            <div *ngIf="theme.id == mess.theme"> {{theme.theme}}</div>
+          </div>
+        </div>
+        <div style="width: 20%">
+          <div>
+            {{ mess.message }}
+          </div>
+        </div>
+      </div> 
+    </div>
+
+
+
+  </div>
+
+
+</div>
